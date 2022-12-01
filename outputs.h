@@ -59,8 +59,8 @@ Output* _createOutput(int productId, char * returnDate, char * returnShift, int 
  * @param output 
  */
 void _addOutput(Outputs *outputs, Output *output) {
+  outputs->list = realloc(outputs->list, (outputs->size + 1) * sizeof(Output)); // Realloc memory
   outputs->size++;
-  outputs->list = realloc(outputs->list, sizeof(Output) * outputs->size); // Realloc memory
   outputs->list[outputs->size - 1] = output;
 }
 

@@ -32,8 +32,10 @@ void printMenu() {
  */
 void printWelcome() {
   printf("================================================================================================\n");
-  printf("Bem-vindo ao sistema de  \n\n");
-  // Elena
+  printf("Bem-vindo ao sistema de Registro de Saídas\n\n");
+  printf("Este sistema tem como objetivo registrar saídas de produtos e confirmar o retorno dos mesmos a partir da previsão.\n");
+  printf("Configure os produtos que deseja utilizar no programa no arquivo 'products.txt'\n");
+  printf("================================================================================================\n\n");
 }
 
 /**
@@ -41,7 +43,19 @@ void printWelcome() {
  */
 void printSystemInfo() {
   printf("================================================================================================\n");
-  // Thyrson
+  printf("Descrição:\n");
+  printf("Este programa tem o objetivo de auxiliar funcionários de empresas que trabalham com estoque, agilizando processos de controle e permitindo uma facil localização de produtos. \n\n");
+  printf("Com este programa você poderá:\n");
+  printf(" - Registrar a saída dos produtos do seu estoque\n");
+  printf(" - Ter um histórico de todas as saídas e retornos de produtos\n");
+  printf(" - Confirmar quanto um produto retorna para o estoque\n");
+  printf(" - Buscar as saídas de um produto pelo seu código\n");
+  printf(" - Buscar as saídas de um produto pelo seu nome\n\n");
+
+  printf("Integrantes:\n");
+  printf("Daniela Füchtenbusch, Elena Holst, Ricardo Pacheco e Thyrson Pereira De Souza.\n");
+  printf("Desenvolvido entre 25/11/2022 e 01/12/2022\n");
+  printf("================================================================================================\n");
 }
 
 
@@ -147,6 +161,7 @@ void showHistory(Products * products, Outputs * outputs) {
 
 int main(void) {
   setlocale(LC_ALL, "Portuguese");
+  printWelcome();
   Products *products = _readProductsFile("products.txt");
   Outputs *outputs = _createOutputRegister();
 
