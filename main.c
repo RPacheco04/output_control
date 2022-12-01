@@ -144,6 +144,7 @@ void confirmReturn(Products * products, Outputs * outputs) {
   printf("\nDigite o id da saída que deseja confirmar o retorno: ");
   scanf("%d", &outputId);
   _confirmReturn(outputs, outputId);
+  _freeOutputsList(outputsWithId, false);
   printf("\n================================================================================================\n\n");
 }
 
@@ -177,7 +178,7 @@ int main(void) {
         confirmReturn(products, outputs);
         break;
       case SEARCH_PRODUCT:
-        searchProduct(products, outputs, true);
+        _freeOutputsList(searchProduct(products, outputs, true), false);
         break;
       case SHOW_HISTORY:
         showHistory(products, outputs);
@@ -192,5 +193,8 @@ int main(void) {
         break;
       }
   }
+  _freeProducts(products);
+  _freeOutputsList(outputs, true);
+
   return 0;
 }
