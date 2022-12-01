@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "outputs.h"
 #include <locale.h>
+#include "outputs.h"
 
 enum Options {
   EXIT = 0,
@@ -24,6 +24,7 @@ void printMenu() {
   printf("4 - Mostrar histórico de saídas \n");
   printf("5 - Informações do sistema \n");
   printf("0 - Sair \n");
+  printf("Opção escolhida: ");
 }
 
 /**
@@ -43,23 +44,6 @@ void printSystemInfo() {
   // Thyrson
 }
 
-/**
- * @brief Get the Shift string based on the shift number
- * @param shift 
- * @return char* 
- */
-char *getShift(int shift) {
-  switch (shift) {
-    case 1:
-      return "Manhã";
-    case 2:
-      return "Tarde";
-    case 3:
-      return "Noite";
-    default:
-      return "Turno inválido";
-  }
-}
 
 /**
  * @brief Get the user iformation to add a new output
@@ -79,8 +63,6 @@ void addOutput(Products * products, Outputs * outputs) {
     printf("================================================================================================\n\n");
     return;
   };
-  
-
   // Get the user input of the return date prevision
   char * returnDate = malloc(sizeof(char) * 11);
   printf("Digite a data prevista de retorno (dd/mm/aaaa): ");
@@ -91,14 +73,28 @@ void addOutput(Products * products, Outputs * outputs) {
   printf("Digite o turno previsto de retorno (1 - manhã, 2 - tarde, 3 - noite): ");
   scanf("%d", &returnShift);
 
+  // Get the destination of the output
+  char * destination = malloc(sizeof(char) * 100);
+  printf("Digite o destino do produto: ");
+  scanf("%s", destination);
+
   // Add the output to the outputs list
-  Output * output = _createOutput(productId, returnDate, getShift(returnShift), outputs->size + 1);
+  Output * output = _createOutput(productId, returnDate, getShiftByNumber(returnShift), outputs->size + 1, destination);
   _addOutput(outputs, output);
 
   printf("\n================================================================================================\n\n");
 }
 
 
+
+/**
+ * @brief Search on the outputs for outputs with the product id and print the results
+ * Get the user input of product_id. Calls _getOutputsByProductId and calls _printOutputList on the result
+ * @param products 
+ * @param outputs 
+ * @param showDividers 
+ * @return Outputs* 
+ */
 Outputs *searchProduct(Products * products, Outputs * outputs, bool showDividers) {
   if (showDividers) printf("\n================================================================================================\n");
   // Get the user input of the product id

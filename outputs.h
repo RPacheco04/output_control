@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "products.h"
+#include "dates.h"
 
 typedef struct output {
     int output_id;
@@ -10,6 +11,7 @@ typedef struct output {
     bool returned;
     char * forecast_date;
     char * output_date;
+    char * destination;
 } Output;
 
 typedef struct outputs {
@@ -24,7 +26,7 @@ Outputs * _createOutputRegister() {
   return outputs;
 };
 
-Output* _createOutput(int productId, char * returnDate, char * returnShift, int outputId) {
+Output* _createOutput(int productId, char * returnDate, char * returnShift, int outputId, char * destination) {
   Output * output = malloc(sizeof(Output));
   // set output date as concatenation of returnDate and returnShift separated by space
   output->forecast_date = malloc(sizeof(char) * (strlen(returnDate) + strlen(returnShift) + 1));
@@ -33,8 +35,8 @@ Output* _createOutput(int productId, char * returnDate, char * returnShift, int 
   strcat(output->forecast_date, returnShift);
   output->product_id = productId;
   output->output_id = outputId;
-  output->output_date = "teste data"; // TODO Get current date and shift
-
+  output->destination = destination;
+  output->output_date = getCurrentDateAndShift(); // TODO Get current date and shift
   return output;
 }
 
@@ -56,13 +58,14 @@ Outputs * _getOutputsByProductId(Outputs *outputs, int productId) {
 
 void _printOutputList(Products *products, Outputs *outputs) {
   for (int i = 0; i < outputs->size; i++) {
-    printf("%d - ", i + 1);
+    printf("%d - ", outputs->list[i]->output_id);
     printf(
-      "Data de saída: %s, Data prevista de retorno: %s, Retornado: %s, Produto: %s",
+      "Produto: %s  Data de saída: %s, Destino: %s \n  Data prevista de retorno: %s, Retornado: %s\n\n",
+      _getProductName(products, outputs->list[i]->product_id),
       outputs->list[i]->output_date,
+      outputs->list[i]->destination,
       outputs->list[i]->forecast_date,
-      outputs->list[i]->returned ? "Sim" : "Não",
-      _getProductName(products, outputs->list[i]->product_id)
+      outputs->list[i]->returned ? "Sim" : "Não"
     );
   }
 }
