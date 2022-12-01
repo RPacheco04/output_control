@@ -73,7 +73,7 @@ void _addOutput(Outputs *outputs, Output *output) {
 void _freeOutputsList(Outputs *outputs, bool freeEachOutput) {
   if (freeEachOutput) {
     for (int i = 0; i < outputs->size; i++) {
-      free(outputs->list[i].forecast_date);
+      free(outputs->list[i]->forecast_date);
       free(outputs->list[i]);
     }
   }

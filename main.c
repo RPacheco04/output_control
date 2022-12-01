@@ -81,7 +81,7 @@ void addOutput(Products * products, Outputs * outputs) {
   // Add the output to the outputs list
   Output * output = _createOutput(productId, returnDate, getShiftByNumber(returnShift), outputs->size + 1, destination);
   _addOutput(outputs, output);
-
+  printf("\nProduto registrado com sucesso.");
   printf("\n================================================================================================\n\n");
 }
 
@@ -101,7 +101,7 @@ Outputs *searchProduct(Products * products, Outputs * outputs, bool showDividers
   int productId;
   printf("Digite o código do produto: ");
   scanf("%d", &productId);
-  // Get the product
+  // Get the outputs with this product
   Outputs *outputsWithId = _getOutputsByProductId(outputs, productId);
 
   if (outputsWithId->size == 0) {
