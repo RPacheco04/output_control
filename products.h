@@ -30,6 +30,7 @@ Products * _readProductsFile(char *filename) {
   products->size = 0;
   char line[MAX_LENGTH];
 
+  // For each line on the file, alloc memory and creates a Product 
   while (fgets(line, MAX_LENGTH, file) != NULL) {
     Product *product = malloc(sizeof(Product));
     // Divide the line into name and id

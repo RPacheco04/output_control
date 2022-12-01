@@ -19,34 +19,75 @@ typedef struct outputs {
     int size;
 } Outputs;
 
-
+/**
+ * @brief Alloc memory for a new Outputs struct
+ * @return Outputs* 
+ */
 Outputs * _createOutputRegister() {
   Outputs * outputs = malloc(sizeof(Outputs));
   outputs->size = 0;
   return outputs;
 };
 
+/**
+ * @brief Alloc memory and create a new output with the information provided as params
+ * @param productId
+ * @param returnDate 
+ * @param returnShift
+ * @param outputId 
+ * @param destination 
+ * @return Output* 
+ */
 Output* _createOutput(int productId, char * returnDate, char * returnShift, int outputId, char * destination) {
   Output * output = malloc(sizeof(Output));
-  // set output date as concatenation of returnDate and returnShift separated by space
+  // Alloc correct memory for forecast_date
   output->forecast_date = malloc(sizeof(char) * (strlen(returnDate) + strlen(returnShift) + 1));
+  // Use strcpy to concatenate the date and shift
   strcpy(output->forecast_date, returnDate);
   strcat(output->forecast_date, " ");
   strcat(output->forecast_date, returnShift);
   output->product_id = productId;
   output->output_id = outputId;
   output->destination = destination;
-  output->output_date = getCurrentDateAndShift(); // TODO Get current date and shift
+  output->output_date = getCurrentDateAndShift(); // Get the current date and shift formatted as string
   return output;
 }
 
+/**
+ * @brief Get the Output object and the Outputs struct and add the output to the list of outputs
+ * @param outputs 
+ * @param output 
+ */
 void _addOutput(Outputs *outputs, Output *output) {
   outputs->size++;
-  outputs->list = realloc(outputs->list, sizeof(Output) * outputs->size);
+  outputs->list = realloc(outputs->list, sizeof(Output) * outputs->size); // Realloc memory
   outputs->list[outputs->size - 1] = output;
 }
 
+/**
+ * @brief Free all the allocated memory for the outputs list
+ * freeEachOutput should be true if you want to free the memory allocated for each output (cannot be used anymore)
+ * @param outputs 
+ * @param freeEachOutput  
+ */
+void _freeOutputsList(Outputs *outputs, bool freeEachOutput) {
+  if (freeEachOutput) {
+    for (int i = 0; i < outputs->size; i++) {
+      free(outputs->list[i].forecast_date);
+      free(outputs->list[i]);
+    }
+  }
+  free(outputs);
+}
+
+/**
+ * @brief This function filter the outputs list based on the product_id received as param
+ * @param outputs 
+ * @param productId 
+ * @return Outputs* 
+ */
 Outputs * _getOutputsByProductId(Outputs *outputs, int productId) {
+  // Creates new outputs list
   Outputs * outputsByProductId = _createOutputRegister();
   for (int i = 0; i < outputs->size; i++) {
     if (outputs->list[i]->product_id == productId) {
@@ -56,6 +97,13 @@ Outputs * _getOutputsByProductId(Outputs *outputs, int productId) {
   return outputsByProductId;
 }
 
+/**
+ * @brief Receive a list of outputs and print them formatted in the console
+ * The products list is needed to get the product name
+ * 
+ * @param products 
+ * @param outputs 
+ */
 void _printOutputList(Products *products, Outputs *outputs) {
   for (int i = 0; i < outputs->size; i++) {
     printf("%d - ", outputs->list[i]->output_id);
