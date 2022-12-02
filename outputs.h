@@ -40,9 +40,9 @@ Outputs * _createOutputRegister() {
  */
 Output* _createOutput(int productId, char * returnDate, char * returnShift, int outputId, char * destination) {
   Output * output = malloc(sizeof(Output));
-  // Alloc correct memory for forecast_date
-  output->forecast_date = malloc(sizeof(char) * (strlen(returnDate) + strlen(returnShift) + 1));
-  // Use strcpy to concatenate the date and shift
+  // Use strcpy to concatenate the date and shift with a space between them
+  // Save the result in the forecast_date field
+  output->forecast_date = malloc(sizeof(char) * 20);
   strcpy(output->forecast_date, returnDate);
   strcat(output->forecast_date, " ");
   strcat(output->forecast_date, returnShift);
@@ -73,7 +73,6 @@ void _addOutput(Outputs *outputs, Output *output) {
 void _freeOutputsList(Outputs *outputs, bool freeEachOutput) {
   if (freeEachOutput) {
     for (int i = 0; i < outputs->size; i++) {
-      free(outputs->list[i]->forecast_date);
       free(outputs->list[i]);
     }
   }
