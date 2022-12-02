@@ -44,6 +44,7 @@ char* getCurrentShift() {
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     char *shift = malloc(sizeof(char) * 3);
+
     if (tm.tm_hour < 12 && tm.tm_hour > 6) {
         strcpy(shift, "Manhã");
     } else if (tm.tm_hour < 18 && tm.tm_hour > 12) {
@@ -62,6 +63,7 @@ char* getCurrentDateAndShift() {
     char *date = getCurrentDate();
     char *shift = getCurrentShift();
     char *dateAndShift = malloc(sizeof(char) * (strlen(date) + strlen(shift) + 1));
+    // Concating the date and shift
     strcpy(dateAndShift, date);
     strcat(dateAndShift, " ");
     strcat(dateAndShift, shift);

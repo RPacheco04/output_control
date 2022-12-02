@@ -99,8 +99,6 @@ void addOutput(Products * products, Outputs * outputs) {
   printf("\n================================================================================================\n\n");
 }
 
-
-
 /**
  * @brief Search on the outputs for outputs with the product id and print the results
  * Get the user input of product_id. Calls _getOutputsByProductId and calls _printOutputList on the result
@@ -163,7 +161,7 @@ void showHistory(Products * products, Outputs * outputs) {
 int main(void) {
   setlocale(LC_ALL, "Portuguese");
   printWelcome();
-  Products *products = _readProductsFile("products.txt");
+  Products *products = _readProductsFile("produtos.txt");
   Outputs *outputs = _createOutputRegister();
 
   int option = 1;
